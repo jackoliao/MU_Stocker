@@ -23,7 +23,7 @@ svg{width:100%;height:auto;display:block}.tip{position:absolute;pointer-events:n
 canvas{width:100%;height:420px;display:block;touch-action:pan-y}#o{font-size:11px;color:var(--mu);min-height:16px;font-variant-numeric:tabular-nums}
 .r{display:flex;justify-content:space-between;position:relative;padding:1px 4px;font-variant-numeric:tabular-nums;font-size:12px}.r i{position:absolute;right:0;top:0;bottom:0;opacity:.18;z-index:0}.r *{position:relative;z-index:1}
 h3{margin:6px 0 4px;font-size:12px;color:var(--mu);font-weight:500}.note{color:var(--mu);font-size:11px;margin-top:10px}
-button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:2px 4px;font:inherit}#ch{cursor:grab}#zb button{padding:3px 11px;margin-right:4px}</style></head><body style="max-width:1200px"><h1>Micron (MU) 看盤終端 <span class="sub">NASDAQ 現股研究 + Binance MUUSDT 即時</span></h1>
+button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:2px 4px;font:inherit}#ch{cursor:grab}#zb button{padding:3px 11px;margin-right:4px}.rbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px}.rbar .sub{flex:1}</style></head><body style="max-width:1200px"><h1>Micron (MU) 看盤終端 <span class="sub">NASDAQ 現股研究 + Binance MUUSDT 即時</span></h1>
 <div class="sub">「即時看盤」分頁連 Binance 即時資料（需可連線 Binance 的網路）；其餘分頁為整理自公開來源（SEC Form 4、MarketBeat、Quantisnow、Simply Wall St 等）的靜態快照，截至 2026-11-07 查詢；非即時報價，不構成投資建議。</div>
 <div class="card"><div class="grid" id="sg">
 <div class="k"><b>$833.59</b><span>11/2 收盤（−5.78%）</span></div>
@@ -32,7 +32,7 @@ button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);c
 <div class="k"><b>80.84%</b><span>機構持股比例</span></div>
 <div class="k"><b>0.24%</b><span>內部人持股比例</span></div></div>
 <div class="note" id="sst">現股數字為 11/2 快照，正在嘗試取得最新報價…</div><button id="fk" style="margin-top:8px">設定現股報價 API 金鑰（Finnhub 免費）</button></div>
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap"><h2 style="margin:0">MUUSDT 即時儀表板 <span class="sub" id="dst">載入中…</span></h2><button id="rf">⟳ 手動更新</button></div><div class="grid" id="dg"></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap"><h2 style="margin:0">MUUSDT 即時儀表板 <span class="sub" id="dst">載入中…</span></h2><button id="rf">⟳ 全部更新</button></div><div class="grid" id="dg"></div></div>
 <div class="tabs" id="tabs"></div>
 <div class="sec on" id="slive"><div class="top"><div><div class="sub" style="color:var(--mu);font-size:11px">Binance U 本位永續</div><b>MUUSDT</b></div>
 <div class="px" id="px">—</div><div class="s"><span>24h 漲跌</span><b id="chg">—</b></div><div class="s"><span>24h 高</span><b id="hi">—</b></div><div class="s"><span>24h 低</span><b id="lo">—</b></div>
@@ -49,7 +49,7 @@ button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);c
 
 <div class="sec" id="s1"><div class="card"><h2>高層／董事交易（Form 4）</h2>
 <div class="rng" id="who"></div><div class="sc"><table id="tb"></table></div>
-<div class="note">多數賣出為預先安排的 10b5-1 計畫；日期標「≈」者為依資料來源順序推估。我找到的資料中沒有高層公開市場「買進」紀錄。清單不一定完整，請以 SEC EDGAR 為準。</div></div>
+<div class="note">多數賣出為預先安排的 10b5-1 計畫；日期標「≈」者為依資料來源順序推估。我找到的資料中沒有高層公開市場「買進」紀錄。清單不一定完整，請以 SEC EDGAR 為準。頁面會嘗試從 Nasdaq.com 公開資料即時抓取 Form 4 買賣（抓不到時顯示 11/13 整理的快照）。</div></div>
 <div class="card"><h2>各人累計賣出金額（本表）</h2><div id="bars"></div></div>
 <div class="card"><h2>公司買回股票</h2><p>已查到：財年 2026 Q1（截至 2025 年 11 月底）買回 <b>$3 億</b>美元，同期減債 $27 億，自由現金流率約 30%。後續季度的買回金額我未能取得，請看 Micron 10-Q 的 Issuer Purchases 段落。</p></div></div>
 
@@ -64,20 +64,20 @@ button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);c
 <li>Norges Bank：某季新建倉，約 $14.7 億</li><li>Capital Research：−13.1%（減持）</li><li>Vanguard +1.9%、BlackRock +7.3%（增持，依不同季度來源）</li></ul></div></div>
 
 <div class="sec" id="s3"><div class="card"><h2>券商評等與目標價</h2><div class="sc"><table id="an"></table></div>
-<div class="note">共識：多為「買進」；MarketBeat 平均目標價 2026/5 約 $571（當時股價約 $896），6 月最高目標價 $1,750。目標價大幅落後股價時參考性低，且最新共識我未取得。</div></div></div>
+<div class="note">共識「買進」；MarketBeat 平均目標價約 $1,295.63（2026/8 底），Susquehanna 最高 $2,000（6/25）。下表 3 月前後的目標價已明顯落後股價，僅供參考。</div></div></div>
 
 <script>(()=>{
 const $=s=>document.querySelector(s);
 const P=[["2025-10-03",192],["2025-11-03",225],["2025-12-18",266],["2026-01-01",285.84],["2026-01-22",396],["2026-02-02",432],["2026-03-20",497],["2026-05-01",536],["2026-05-15",724.66],["2026-05-29",976],["2026-06-18",1134],["2026-06-26",1150],["2026-07-13",936],["2026-07-24",927],["2026-09-18",1016],["2026-11-02",833.59]];
-const I=[["2025-10-27","Scott DeBoer","總裁／CTO",82000,222.81],["2025-11-03","Mark Murphy","CFO",126000,225.31],["2025-11-10","Sanjay Mehrotra","CEO",12500,238.96],["2026-01-22","Manish Bhatia","EVP 全球營運",26623,391.04],["2026-02-02","Sumit Sadana","EVP 商務長",25000,429.89],["2026-05-01","Sanjay Mehrotra","CEO",40000,536.26],["2026-05-01","Michael Ray","SVP 法務長",7601,534.30],["2026-05-15","Sanjay Mehrotra","CEO",37439,960.38,1],["2026-05-29","Sanjay Mehrotra","CEO",2561,975.63],["2026-06-26","Sanjay Mehrotra","CEO",40000,1157.4,0,"兩筆 28,506@1,149.28 + 11,494@1,180.96 合併"],["2026-07-24","Sanjay Mehrotra","CEO",31285,926.83],["2026-10-16","Scott DeBoer","總裁／CTO",null,null,0,"約 $2,560 萬（股數未取得）"]];
+let I=[["2025-10-27","Scott DeBoer","總裁／CTO",82000,222.81],["2025-11-03","Mark Murphy","CFO",126000,225.31],["2025-11-10","Sanjay Mehrotra","CEO",12500,238.96],["2026-01-22","Manish Bhatia","EVP 全球營運",26623,391.04],["2026-02-02","Sumit Sadana","EVP 商務長",25000,429.89],["2026-05-01","Sanjay Mehrotra","CEO",40000,536.26],["2026-05-01","Michael Ray","SVP 法務長",7601,534.30],["2026-05-15","Sanjay Mehrotra","CEO",37439,960.38,1],["2026-05-29","Sanjay Mehrotra","CEO",2561,975.63],["2026-06-26","Sanjay Mehrotra","CEO",40000,1157.4,0,"兩筆 28,506@1,149.28 + 11,494@1,180.96 合併"],["2026-07-24","Sanjay Mehrotra","CEO",31285,926.83],["2026-05-11","Steven Gomo","董事",2000,787.04],["2026-06-26","Alexis Bjorlin","董事",25,1132.33],["2026-06-30","Lynn Dugle","董事",1300,1150.43],["2026-08-18","Sumit Sadana","EVP 商務長",15000,934.29],["2026-08-21","Sanjay Mehrotra","CEO",40000,932.97,1,"成交價未取得，以 8/26 開盤價概估"],["2026-10-16","Scott DeBoer","總裁／CTO",null,null,0,"約 $2,560 萬（股數未取得）"]];
 const V=r=>r[3]?r[3]*r[4]:25.6e6, M=n=>"$"+(n/1e6).toFixed(2)+"M";
 const tabs=["即時看盤","走勢總覽","內部人／買回","機構大戶","券商評等"];
 $("#tabs").innerHTML=tabs.map((t,i)=>`<button class="${i?'':'on'}" data-i="${i}">${t}</button>`).join("");
 $("#tabs").onclick=e=>{const i=e.target.dataset.i;if(i==null)return;document.querySelectorAll("#tabs button").forEach((b,j)=>b.classList.toggle("on",j==i));document.querySelectorAll(".sec").forEach((s,j)=>s.classList.toggle("on",j==i));dispatchEvent(new Event("resize"))};
 // chart
-let src="snap",BP=[],vs=null,ve=null,VW={},dr=null;
+let src="snap",BP=[],SP=[],vs=null,ve=null,VW={},dr=null;
 const T=d=>new Date(d).getTime();
-const ds=()=>src=="snap"?P.map(p=>[T(p[0]),p[1]]):BP,fr=()=>{const d=ds();return[d[0][0],d.at(-1)[0]]};
+const ds=()=>src=="snap"?(SP.length?SP:P.map(p=>[T(p[0]),p[1]])):BP,fr=()=>{const d=ds();return[d[0][0],d.at(-1)[0]]};
 $("#rng").innerHTML='<button data-a="in">＋ 放大</button><button data-a="out">－ 縮小</button><button data-a="rs">重設</button><button data-a="snap" class="on">現股快照</button><button data-a="perp">MUUSDT 歷史</button>';
 function zoom(f,c=.5){const[a,b]=fr(),s0=vs??a,e0=ve??b,w=e0-s0,nw=Math.min(b-a,Math.max(864e5*3,w*f)),m=s0+w*c;let s=m-nw*c;if(s<a)s=a;if(s+nw>b)s=b-nw;vs=s;ve=s+nw;draw()}
 $("#rng").onclick=async e=>{const a=e.target.dataset.a;if(!a)return;
@@ -90,7 +90,7 @@ for(let i=0;i<5;i++){const v=lo+(hi-lo)*i/4,y=Y(v);g+=`<line x1="50" x2="690" y1
 const path=d.map((p,i)=>(i?"L":"M")+X(p[0])+","+Y(p[1])).join("");
 g+=`<g clip-path="url(#cp)"><path d="${path}L${X(d.at(-1)[0])},270L${X(d[0][0])},270Z" fill="var(--ac)" opacity=".1"/><path d="${path}" fill="none" stroke="var(--ac)" stroke-width="2"/>`;
 if(vis.length<40)vis.forEach(p=>g+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="3" fill="var(--ac)"/>`);
-if($("#mk").checked)I.forEach(r=>{const t=T(r[0]);if(t<s0||t>e0)return;const nb=d.reduce((x,y)=>Math.abs(y[0]-t)<Math.abs(x[0]-t)?y:x);g+=`<circle cx="${X(t)}" cy="${Y(nb[1])}" r="${4+Math.sqrt(V(r)/1e6)}" fill="var(--dn)" opacity=".65" data-t="${r[0]} ${r[1]} 賣出 ${M(V(r))}${r[4]?" @ $"+r[4]:""}"/>`});
+if($("#mk").checked)I.forEach(r=>{const t=T(r[0]);if(t<s0||t>e0||r[7]=="B")return;const nb=d.reduce((x,y)=>Math.abs(y[0]-t)<Math.abs(x[0]-t)?y:x);g+=`<circle cx="${X(t)}" cy="${Y(nb[1])}" r="${4+Math.sqrt(V(r)/1e6)}" fill="var(--dn)" opacity=".65" data-t="${r[0]} ${r[1]} 賣出 ${M(V(r))}${r[4]?" @ $"+r[4]:""}"/>`});
 $("#ch").innerHTML=g+"</g>";VW={s0,W,d}}
 const ch=$("#ch"),tp=$("#tip"),cr=e=>{const b=ch.getBoundingClientRect();return[(e.clientX-b.left)/b.width*700,b]};
 ch.onpointerdown=e=>{dr={x:e.clientX,s:VW.s0};ch.setPointerCapture(e.pointerId);ch.style.cursor="grabbing"};
@@ -106,12 +106,12 @@ let who="全部",sk=0,asc=false;const names=["全部",...new Set(I.map(r=>r[1]))
 $("#who").innerHTML=names.map((n,i)=>`<button class="${i?'':'on'}">${n}</button>`).join("");
 $("#who").onclick=e=>{if(e.target.tagName!="BUTTON")return;who=e.target.textContent;document.querySelectorAll("#who button").forEach(b=>b.classList.toggle("on",b==e.target));tb()};
 function tb(){let rows=I.filter(r=>who=="全部"||r[1]==who).sort((a,b)=>(sk?V(a)-V(b):T(a[0])-T(b[0]))*(asc?1:-1));
-$("#tb").innerHTML=`<tr><th onclick="srt(0)">日期 ⇅</th><th>人員</th><th>職稱</th><th>股數</th><th>均價</th><th onclick="srt(1)">金額 ⇅</th></tr>`+rows.map(r=>`<tr title="${r[6]||''}"><td>${r[5]?'≈':''}${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]?r[3].toLocaleString():'—'}</td><td>${r[4]?'$'+r[4].toLocaleString():'—'}</td><td class="dn">賣 ${M(V(r))}</td></tr>`).join("");
-const tot={};I.forEach(r=>tot[r[1]]=(tot[r[1]]||0)+V(r));const mx=Math.max(...Object.values(tot));
+$("#tb").innerHTML=`<tr><th onclick="srt(0)">日期 ⇅</th><th>人員</th><th>職稱</th><th>股數</th><th>均價</th><th onclick="srt(1)">金額 ⇅</th></tr>`+rows.map(r=>`<tr title="${r[6]||''}"><td>${r[5]?'≈':''}${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]?r[3].toLocaleString():'—'}</td><td>${r[4]?'$'+r[4].toLocaleString():'—'}</td><td class="${r[7]=="B"?"up":"dn"}">${r[7]=="B"?"買":"賣"} ${M(V(r))}</td></tr>`).join("");
+const tot={};I.forEach(r=>{if(r[7]!="B")tot[r[1]]=(tot[r[1]]||0)+V(r)});const mx=Math.max(...Object.values(tot));
 $("#bars").innerHTML=Object.entries(tot).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<div style="margin:8px 0"><div style="display:flex;justify-content:space-between"><span>${n}</span><b>${M(v)}</b></div><div class="bar" style="width:${v/mx*100}%;background:var(--dn)"></div></div>`).join("")}
 tb();
 $("#inst").innerHTML=`<tr><th>機構</th><th>持股數</th><th>占比</th><th>近期變動</th></tr>`+[["Vanguard","106,608,094","約 8.7–9.5%","+1.9%"],["Capital Research","98,047,646","約 8.3%","−13.1%"],["BlackRock","93.8M–100.7M","約 8–8.9%","+7.3%"],["State Street","51,659,173","約 4.6%","—"],["FMR (Fidelity)","—","約 3.2%","—"],["PRIMECAP","—","約 3.4%（舊資料）","—"]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="${r[3][0]=='+'?'up':r[3][0]=='−'?'dn':''}">${r[3]}</td></tr>`).join("");
-$("#an").innerHTML=`<tr><th>券商</th><th>評等</th><th>目標價</th><th>日期</th></tr>`+[["Melius","Buy（首次評等）","$700","2026-04-27"],["KeyCorp","Overweight","$450→$600","2026-03-19"],["JPMorgan","Overweight","$350→$550","2026-03-19"],["Mizuho","Outperform","$480→$530","2026-03-19"],["Stifel","Buy","$360→$550","2026-03-02"],["Susquehanna","Positive","$345→$525","2026-03-09"],["RBC","Outperform","$425→$525","2026-03-16"],["Wedbush","Outperform","$320→$500","2026-03-13"],["Morgan Stanley","Overweight","$350→$450","2026-02-11"]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("");
+$("#an").innerHTML=`<tr><th>券商</th><th>評等</th><th>目標價</th><th>日期</th></tr>`+[["Susquehanna","Positive（上調目標）","$1,750→$2,000","2026-06-25"],["Erste Group","Hold→Buy（升評）","—","2026-06-25"],["Melius","Buy（首次評等）","$700","2026-04-27"],["KeyCorp","Overweight","$450→$600","2026-03-19"],["JPMorgan","Overweight","$350→$550","2026-03-19"],["Mizuho","Outperform","$480→$530","2026-03-19"],["Stifel","Buy","$360→$550","2026-03-02"],["Susquehanna","Positive","$345→$525","2026-03-09"],["RBC","Outperform","$425→$525","2026-03-16"],["Wedbush","Outperform","$320→$500","2026-03-13"],["Morgan Stanley","Overweight","$350→$450","2026-02-11"]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("");
 
 const FH="https://fapi.binance.com",SY="MUUSDT",J=async p=>{const r=await fetch(FH+p,{signal:AbortSignal.timeout(8000)});if(!r.ok)throw 0;return r.json()};
 let lastU=0,busy=0,okU=0,stOK=0;
@@ -138,9 +138,39 @@ const [A,B,O,G,TP,TK,TA,OH]=rs,la=x=>x&&x.length?x.at(-1):null,lv=(x,k)=>x&&x.ma
 const c=A&&+A.priceChangePercent,cc=c>=0?"up":"dn",g0=la(G),t0=la(TP),k0=la(TK);
 $("#dg").innerHTML=KK(F(A&&A.lastPrice),"最新價",cc)+KK(A?(c>=0?"+":"")+F(c)+"%":"—","24h 漲跌",cc)+KK(F(A&&A.quoteVolume,0),"24h 成交額 USDT")+KK(F(B&&B.markPrice),"標記價")+KK(B?F(B.lastFundingRate*100,4)+"%":"—","資金費率")+KK(F(O&&O.openInterest,1),"未平倉量 (MU)")+KK(F(g0&&g0.longShortRatio),"全市場多空帳戶比")+KK(F(t0&&t0.longShortRatio),"大戶多空持倉比")+KK(F(k0&&k0.buySellRatio),"主動買賣量比 (5m)");
 $("#sp").innerHTML=spark(lv(TP,"longShortRatio"),"大戶多空持倉比",x=>F(x))+spark(lv(TA,"longShortRatio"),"大戶多空帳戶比",x=>F(x))+spark(lv(G,"longShortRatio"),"全市場多空帳戶比",x=>F(x))+spark(lv(TK,"buySellRatio"),"主動買賣量比",x=>F(x))+spark(lv(OH,"sumOpenInterestValue"),"未平倉價值（USDT）",x=>F(x/1e6,2)+"M");
-lastU=Date.now();busy=0;$("#rf").textContent="⟳ 手動更新";tickU()}
+lastU=Date.now();busy=0;$("#rf").textContent="⟳ 全部更新";$("#ts3").textContent="大戶／大單即時｜13F "+(instOK?"來自 Nasdaq.com":"為季報快照")+"｜"+new Date().toLocaleTimeString();tickU()}
 function tickU(){$("#dst").textContent=(okU||stOK)?`更新於 ${new Date(lastU).toLocaleTimeString()} · ${Math.max(0,30-Math.floor((Date.now()-lastU)/1000))} 秒後自動更新`:"⚠ 無法連線 Binance，30 秒後重試"}
-$("#rf").onclick=dash;$("#fk").onclick=()=>{let o="";try{o=localStorage.getItem("fhk")||""}catch(e){}const k=prompt("貼上 Finnhub 免費 API Key（finnhub.io 註冊後在 Dashboard 取得；留空則清除）：",o);if(k===null)return;try{k.trim()?localStorage.setItem("fhk",k.trim()):localStorage.removeItem("fhk")}catch(e){}dash()};setInterval(()=>{if(Date.now()-lastU>=30000)dash();else tickU()},1000);dash();
+document.querySelectorAll(".sec").forEach((s,i)=>s.insertAdjacentHTML("afterbegin",`<div class="rbar"><span class="sub" id="ts${i}">尚未更新</span><button data-r="${i}">⟳ 更新此頁</button></div>`));
+$("#an").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" id="rec" style="display:none"></div>');
+document.addEventListener("click",e=>{const i=e.target.dataset&&e.target.dataset.r;if(i==null)return;i==0?window.liveRefresh&&window.liveRefresh():i==1?loadTrend(1):i==2?loadIns(1):i==3?(dash(),loadInst(1)):loadAn(1)});
+const key=()=>{try{return localStorage.getItem("fhk")}catch(e){return null}},now=()=>new Date().toLocaleTimeString();
+async function hist(){const Y="https://query1.finance.yahoo.com/v8/finance/chart/MU?interval=1d&range=1y",
+yh=async u=>{const j=(await jf(u)).chart.result[0],c=j.indicators.quote[0].close,o=[];j.timestamp.forEach((t,i)=>{if(c[i]!=null)o.push([t*1000,c[i]])});if(o.length<5)throw new Error("無資料");return o},
+sq=async()=>{const t=await(await fetch(px("https://stooq.com/q/d/l/?s=mu.us&i=d&d1=20250901&d2=20261231"),{signal:AbortSignal.timeout(9000)})).text(),o=t.trim().split("\n").slice(1).map(l=>l.split(",")).filter(r=>+r[4]>0).map(r=>[Date.parse(r[0]),+r[4]]);if(o.length<5)throw new Error("無資料");return o};
+try{return await Promise.any([["Yahoo",()=>yh(Y)],["Yahoo2",()=>yh(Y.replace("query1","query2"))],["Yahoo(代理)",()=>yh(px(Y))],["Stooq(代理)",sq]].map(([n,f])=>f().then(r=>(r.src=n,r))))}catch(e){return null}}
+let lastT=0;async function loadTrend(f){if(!f&&Date.now()-lastT<60000)return;lastT=Date.now();
+const [b,s]=await Promise.all([jf(FH+"/fapi/v1/klines?symbol=MUUSDT&interval=1d&limit=1000").then(r=>r.map(k=>[k[0],+k[4]])).catch(()=>null),hist()]);
+if(b&&b.length)BP=b;if(s&&s.length){SP=s;document.querySelector("#rng [data-a=snap]").textContent="現股日 K"}
+$("#ts1").textContent=(s&&s.length?"現股日 K 來源 "+s.src:"現股日 K 抓取失敗，顯示快照")+"｜"+(b?"MUUSDT 日 K 已更新 ":"MUUSDT 抓取失敗 ")+now();draw()}
+function wb(){$("#who").innerHTML=["全部",...new Set(I.map(r=>r[1]))].map((n,i)=>`<button class="${i?"":"on"}">${n}</button>`).join("")}
+let instOK=0;const pn=s=>parseFloat(String(s||"").replace(/[$,]/g,""));
+async function nq(p){const u="https://api.nasdaq.com/api"+p;return Promise.any([u,px(u),"https://corsproxy.io/?url="+encodeURIComponent(u)].map(async x=>{const j=await jf(x);if(!j.data)throw new Error("無資料");return j.data}))}
+let lastI=0;async function loadIns(f){if(!f&&Date.now()-lastI<60000)return;lastI=Date.now();let rows=[],src="";
+try{const d=await nq("/company/MU/insider-trades?limit=60&type=ALL&sortColumn=lastDate&sortOrder=DESC");rows=d.transactionTable.table.rows.map(r=>{const t=(r.transactionType||"").toLowerCase(),sd=t.includes("sell")?"S":t.includes("buy")?"B":null,[m,dd,y]=(r.lastDate||"").split("/");return sd&&[`${y}-${m}-${dd}`,r.insider,r.relation||"—",pn(r.sharesTraded),pn(r.lastPrice),0,"",sd]}).filter(x=>x&&x[3]>0&&x[4]>0);src="Nasdaq.com"}catch(e){}
+const k=key();if(!rows.length&&k)try{const j=await jf(`https://finnhub.io/api/v1/stock/insider-transactions?symbol=MU&from=2025-10-01&token=${k}`);rows=(j.data||[]).filter(x=>(x.transactionCode=="S"||x.transactionCode=="P")&&x.transactionPrice>0&&x.change).map(x=>[x.transactionDate,x.name,"—",Math.abs(x.change),x.transactionPrice,0,"",x.transactionCode=="P"?"B":"S"]);src="Finnhub"}catch(e){}
+if(!rows.length){$("#ts2").textContent="⚠ 公開來源皆無法連線（可能被瀏覽器或網路封鎖），顯示 11/13 整理的快照";return}
+I=rows;who="全部";wb();tb();draw();$("#ts2").textContent=`${src} Form 4 即時｜${rows.length} 筆買賣｜${now()}`}
+let lastN=0;async function loadInst(f){if(!f&&Date.now()-lastN<60000)return;lastN=Date.now();
+try{const d=await nq("/company/MU/institutional-holdings?limit=15&type=TOTAL&sortColumn=marketValue&sortOrder=DESC"),r=d.holdingsTransactions.table.rows;if(!r.length)throw new Error("無資料");
+if(!$("#f13s"))$("#f13").parentNode.insertAdjacentHTML("beforebegin",'<div class="sub" id="f13s" style="margin-bottom:6px"></div>');
+$("#f13s").textContent=((d.activePositions&&d.activePositions.table&&d.activePositions.table.rows)||[]).map(x=>`${x.positions}：${x.holders} 家`).join("｜");
+$("#f13").innerHTML='<tr><th>機構</th><th>持股數</th><th>增減</th><th>增減%</th><th>申報日</th></tr>'+r.map(x=>{const c=pn(x.sharesChange)>=0?"up":"dn";return `<tr><td>${x.ownerName}</td><td>${x.sharesHeld}</td><td class="${c}">${x.sharesChange}</td><td class="${c}">${x.sharesChangePCT}</td><td>${x.date}</td></tr>`}).join("");instOK=1}catch(e){instOK=0}}
+let lastA=0;async function loadAn(f){if(!f&&Date.now()-lastA<60000)return;lastA=Date.now();const c=$("#rec");
+try{const o=(await nq("/analyst/MU/targetprice")).consensusOverview,D=v=>v==null||v===""?"—":String(v).startsWith("$")?v:"$"+v;if(!o)throw new Error("無資料");
+c.style.display="block";c.innerHTML=`<h2>分析師共識（Nasdaq.com）</h2><div class="grid">${KK(D(o.priceTarget),"共識目標價")+KK(D(o.highPriceTarget),"最高目標價")+KK(D(o.lowPriceTarget),"最低目標價")+KK(o.buy==null?"—":o.buy,"買進","up")+KK(o.hold==null?"—":o.hold,"持有")+KK(o.sell==null?"—":o.sell,"賣出","dn")}</div>`;$("#ts4").textContent="Nasdaq.com 共識即時｜"+now()+"｜下表目標價為快照"}
+catch(e){c.style.display="none";$("#ts4").textContent="⚠ 公開來源無法連線，顯示 11/13 整理的快照"}}
+const refreshAll=f=>Promise.all([dash(),loadTrend(f),loadIns(f),loadAn(f),loadInst(f)]);
+$("#rf").onclick=()=>refreshAll(1);$("#fk").onclick=()=>{let o="";try{o=localStorage.getItem("fhk")||""}catch(e){}const k=prompt("貼上 Finnhub 免費 API Key（finnhub.io 註冊後在 Dashboard 取得；留空則清除）：",o);if(k===null)return;try{k.trim()?localStorage.setItem("fhk",k.trim()):localStorage.removeItem("fhk")}catch(e){}refreshAll(1)};setInterval(()=>{if(Date.now()-lastU>=30000)refreshAll();else tickU()},1000);refreshAll();
 $("#f13").innerHTML='<tr><th>機構</th><th>動作</th><th>幅度／規模</th><th>季度</th></tr>'+[["AQR Capital","增持","+411.9%","2025 Q3"],["Norges Bank","新建倉","約 $19.8 億","2025 Q2"],["Nuveen","新建倉","約 $3.69 億","2025 Q1"],["Slate Path Capital","新建倉","約 $3.18 億","2025 Q2"],["Keystone Investors","新建倉","約 $9,625 萬","2025 Q1"],["Connor Clark & Lunn","新建倉","約 $8,881 萬","2025 Q3"],["Orbis Allan Gray","增持","+50.2%（346 萬股）","2025 Q2"],["Dimensional","增持","+26.3%","2025 Q1"],["Goldman Sachs","增持","+23.8%","2025 Q1"],["BlackRock","增持","+7.3%（約 1.007 億股）","2025 Q4"],["Invesco","增持","+8.0%（962 萬股）","2026/3 報導"],["State Street","增持","+2.7%（5,137 萬股）","2025 Q2"],["Vanguard","增持","+1.9%（1.066 億股）","2025 Q4"],["Capital Research","減持","−13.1%（9,805 萬股）","來源未註明"],["Stableford Capital II","減持","−64.7%（小型）","2026 Q2"]].map(r=>`<tr><td>${r[0]}</td><td class="${/^[增新]/.test(r[1])?"up":"dn"}">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("");
 
 window.srt=k=>{sk=k;asc=!asc;tb()};})();</script><script>(()=>{
@@ -191,7 +221,7 @@ if(tk&&tk.lastPrice){Z.P=+tk.priceChangePercent;Z.h=tk.highPrice;Z.l=tk.lowPrice
 if(pi&&pi.markPrice){Z.p=pi.markPrice;Z.r=pi.lastFundingRate;Z.T=pi.nextFundingTime}
 if(Date.now()-lastDp>4000){const d=await J(`/fapi/v1/depth?symbol=${S}&limit=10`);if(d&&d.asks){D.a=d.asks;D.b=d.bids}}
 if(iv!='1s'&&Date.now()-lastKl>5000){const a=await J(`/fapi/v1/klines?symbol=${S}&interval=${iv}&limit=2`);if(Array.isArray(a))a.forEach(k=>mergeK([k[0],+k[1],+k[2],+k[3],+k[4],+k[5]]))}
-$('#st').innerHTML=(t||tk||pi)?`<span class="up">● 即時 ${new Date().toLocaleTimeString()}</span>`:'⚠ 無法連線 Binance（可能被地區或網路封鎖）';dirty=1}finally{busyP=0}}
+$('#st').innerHTML=(t||tk||pi)?`<span class="up">● 即時 ${new Date().toLocaleTimeString()}</span>`:'⚠ 無法連線 Binance（可能被地區或網路封鎖）';const e0=$('#ts0');if(e0)e0.textContent='即時串流｜畫面每 '+rate/1000+' 秒刷新｜'+new Date().toLocaleTimeString();dirty=1}finally{busyP=0}}
 function render(){if(iv=='1s'&&K.length){const ns=Math.floor(Date.now()/1000)*1000;let l=K.at(-1),g=0;while(l[0]<ns&&g++<300){l=[l[0]+1000,l[4],l[4],l[4],l[4],0];K.push(l)}if(K.length>900)K.splice(0,K.length-900);dirty=1}
 if(!dirty)return;dirty=0;const a=K.at(-1);if(a)$('#px').textContent=f(a[4]);draw();
 if(Z.P!=null){const p=Z.P;$('#chg').innerHTML=`<span class="${p>=0?'up':'dn'}">${p>=0?'+':''}${f(p)}%</span>`;$('#hi').textContent=f(Z.h);$('#lo').textContent=f(Z.l);$('#vol').textContent=f(Z.q,0);$('#px').className='px '+(p>=0?'up':'dn')}
@@ -211,6 +241,6 @@ try{ws=new WebSocket('wss://fstream.binance.com/stream?streams='+st)}catch(e){re
 lastMsg=Date.now();ws.onclose=()=>{tm=setTimeout(conn,3000)};
 ws.onmessage=m=>{lastMsg=Date.now();const {stream:t,data:d}=JSON.parse(m.data);dirty=1;
 if(t.includes('kline')){const k=d.k;lastKl=Date.now();mergeK([k.t,+k.o,+k.h,+k.l,+k.c,+k.v])}else if(t.includes('depth')){lastDp=Date.now();D.a=d.a;D.b=d.b}}}
-setInterval(()=>{if(ws&&Date.now()-lastMsg>15000)conn()},5000);
+window.liveRefresh=load;setInterval(()=>{if(ws&&Date.now()-lastMsg>15000)conn()},5000);
 load();
 })();</script></body></html>
