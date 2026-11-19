@@ -51,7 +51,7 @@ button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);c
 <div class="rng" id="who"></div><div class="sc"><table id="tb"></table></div>
 <div class="note">多數賣出為預先安排的 10b5-1 計畫；日期標「≈」者為依資料來源順序推估。我找到的資料中沒有高層公開市場「買進」紀錄。清單不一定完整，請以 SEC EDGAR 為準。頁面會嘗試從 Nasdaq.com 公開資料即時抓取 Form 4 買賣（抓不到時顯示 11/13 整理的快照）。</div></div>
 <div class="card"><h2>各人累計賣出金額（本表）</h2><div id="bars"></div></div>
-<div class="card"><h2>公司買回股票</h2><p>已查到：財年 2026 Q1（截至 2025 年 11 月底）買回 <b>$3 億</b>美元，同期減債 $27 億，自由現金流率約 30%。後續季度的買回金額我未能取得，請看 Micron 10-Q 的 Issuer Purchases 段落。</p></div></div>
+<div class="card"><h2>公司買回股票</h2><p id="buy">已查到：財年 2026 Q1（截至 2025 年 11 月底）買回 <b>$3 億</b>美元，同期減債 $27 億，自由現金流率約 30%。後續季度的買回金額我未能取得，請看 Micron 10-Q 的 Issuer Purchases 段落。</p></div></div>
 
 <div class="sec" id="s2"><div class="card"><h2>主要機構持股（13F）</h2><div class="sc"><table id="inst"></table></div>
 <div class="note">不同來源的季度與數字不一致（例如 BlackRock 為 9,380 萬或 1.007 億股），僅供參考。13F 有最長 45 天的申報延遲，無法反映即時大戶動向。</div></div>
@@ -63,7 +63,7 @@ button.on{color:#000}.iv button.on{color:var(--ac)}select{background:var(--cd);c
 <li>AQR Capital：某季增持 +411.9%</li><li>Holocene Advisors：新建倉 83 萬股（約 $1.39 億）</li>
 <li>Norges Bank：某季新建倉，約 $14.7 億</li><li>Capital Research：−13.1%（減持）</li><li>Vanguard +1.9%、BlackRock +7.3%（增持，依不同季度來源）</li></ul></div></div>
 
-<div class="sec" id="s3"><div class="card"><h2>券商評等與目標價</h2><div class="sc"><table id="an"></table></div>
+<div class="sec" id="s3"><div class="card"><h2>券商評等與目標價（歷史快照）</h2><div class="sc"><table id="an"></table></div>
 <div class="note">共識「買進」；MarketBeat 平均目標價約 $1,295.63（2026/8 底），Susquehanna 最高 $2,000（6/25）。下表 3 月前後的目標價已明顯落後股價，僅供參考。</div></div></div>
 
 <script>(()=>{
@@ -118,7 +118,8 @@ let lastU=0,busy=0,okU=0,stOK=0;
 const F=(x,d=2)=>x==null||isNaN(x)?"—":(+x).toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:d});
 const KK=(b,s,cl="")=>`<div class="k"><b class="${cl}">${b}</b><span>${s}</span></div>`;
 const spark=(a,t,fm)=>{if(!a||a.length<2)return KK("—",t);const mn=Math.min(...a),mx=Math.max(...a),p=a.map((v,i)=>(i*100/(a.length-1)).toFixed(1)+","+(30-(v-mn)/((mx-mn)||1)*28).toFixed(1)).join(" ");return `<div class="k"><b>${fm(a.at(-1))}</b><svg viewBox="0 0 100 32" preserveAspectRatio="none" style="height:34px;margin:4px 0"><polyline points="${p}" fill="none" stroke="var(--ac)" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg><span>${t}</span></div>`};
-const jf=async u=>{const r=await fetch(u,{signal:AbortSignal.timeout(7000)});if(!r.ok)throw new Error("HTTP "+r.status);return r.json()};
+const jf=async u=>{const r=await fetch(u,{signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error("HTTP "+r.status);const t=await r.text();try{return JSON.parse(t)}catch(e){const i=Math.min(...["{","["].map(c=>t.indexOf(c)).filter(i=>i>=0));return JSON.parse(t.slice(i))}};
+const PX=[u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u),u=>"https://corsproxy.io/?url="+encodeURIComponent(u),u=>"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u),u=>"https://r.jina.ai/"+u];
 const YU="https://query1.finance.yahoo.com/v8/finance/chart/MU?interval=1m&range=1d&includePrePost=true",CU="https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=MU&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json",px=u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u);
 const yt=async u=>{const j=(await jf(u)).chart.result[0],m=j.meta,c=j.indicators.quote[0].close.filter(v=>v!=null);return{p:m.regularMarketPrice,pc:m.chartPreviousClose,hi:m.regularMarketDayHigh,lo:m.regularMarketDayLow,vol:m.regularMarketVolume,y1:m.fiftyTwoWeekHigh,y0:m.fiftyTwoWeekLow,t:m.regularMarketTime*1000,ext:c.at(-1)}};
 const cn=async u=>{const q=(await jf(u)).FormattedQuoteResult.FormattedQuote[0],n=s=>parseFloat(String(s).replace(/,/g,""));if(!(n(q.last)>0))throw new Error("無資料");return{p:n(q.last),pc:n(q.previous_day_closing),hi:n(q.high),lo:n(q.low),vol:n(q.volume),y1:n(q.yrhiprice),y0:n(q.yrloprice),t:Date.parse(q.last_time)||Date.now(),ext:q.ExtendedMktQuote?n(q.ExtendedMktQuote.last):null}};
@@ -126,11 +127,11 @@ const sq=async()=>{const t=await(await fetch(px("https://stooq.com/q/l/?s=mu.us&
 const fh=async k=>{const b="https://finnhub.io/api/v1",g=u=>jf(b+u+"&token="+k),[q,m,pf]=await Promise.all([g("/quote?symbol=MU"),g("/stock/metric?symbol=MU&metric=all").catch(()=>null),g("/stock/profile2?symbol=MU").catch(()=>null)]);if(!q.c)throw new Error("無資料");return{p:q.c,pc:q.pc,hi:q.h,lo:q.l,t:q.t*1000,y1:m&&m.metric["52WeekHigh"],y0:m&&m.metric["52WeekLow"],cap:pf&&pf.marketCapitalization/1000}};
 async function stk(){let k=null;try{k=localStorage.getItem("fhk")}catch(e){}const err=[],W=(n,f)=>f().catch(e=>{err.push(n+"："+(e&&e.message||"失敗"));throw e});
 if(k){try{return{...await W("Finnhub",()=>fh(k)),src:"Finnhub"}}catch(e){}}
-const L=[["Yahoo",()=>yt(YU)],["Yahoo2",()=>yt(YU.replace("query1","query2"))],["CNBC",()=>cn(CU)],["Yahoo(代理)",()=>yt(px(YU))],["CNBC(代理)",()=>cn(px(CU))],["Stooq(代理)",sq]];
+const L=[["Yahoo",()=>yt(YU)],["Yahoo2",()=>yt(YU.replace("query1","query2"))],["CNBC",()=>cn(CU)],...PX.flatMap((f,i)=>[["Yahoo(代理"+(i+1)+")",()=>yt(f(YU))],["CNBC(代理"+(i+1)+")",()=>cn(f(CU))]]),["Stooq(代理)",sq]];
 try{return await Promise.any(L.map(([n,f])=>W(n,f).then(r=>({...r,src:n}))))}catch(e){return{err}}}
 function stkR(s){if(!s||s.err){stOK=0;$("#sst").textContent="⚠ 無法取得現股即時報價（"+((s&&s.err)||[]).join("；")+"）。上方為 11/2 快照；可點下方按鈕設定免費 API 金鑰。";return}
 const p=s.p,c=s.pc?(p/s.pc-1)*100:null,cc=c>=0?"up":"dn",ext=s.ext&&Math.abs(s.ext-p)>.005?`｜盤前/盤後約 $${F(s.ext)}`:"";
-$("#sg").innerHTML=KK("$"+F(p),"最新價 "+(c==null?"":(c>=0?"+":"")+F(c)+"%"+(s.po?"（對開盤）":"")),cc)+KK("$"+F(s.hi)+" / $"+F(s.lo),"今日 高 / 低")+KK(s.y1?"$"+F(s.y1,0)+" / $"+F(s.y0):"—","52 週 高 / 低")+KK("$"+F(s.cap||p*1.1314,0)+"B",s.cap?"市值":"市值（約，依 11/2 股數推算）")+KK(s.vol?F(s.vol/1e6,1)+"M":"—","今日成交量")+KK("80.84%","機構持股（舊資料）")+KK("0.24%","內部人持股（舊資料）");
+$("#sg").innerHTML=KK("$"+F(p),"最新價 "+(c==null?"":(c>=0?"+":"")+F(c)+"%"+(s.po?"（對開盤）":"")),cc)+KK("$"+F(s.hi)+" / $"+F(s.lo),"今日 高 / 低")+KK(s.y1?"$"+F(s.y1,0)+" / $"+F(s.y0):"—","52 週 高 / 低")+KK("$"+F(s.cap||p*1.1314,0)+"B",s.cap?"市值":"市值（約，依 11/2 股數推算）")+KK(s.vol?F(s.vol/1e6,1)+"M":"—","今日成交量")+KK(instPct,"機構持股"+(instLive?"（Nasdaq.com）":"（舊資料）"))+KK("0.24%","內部人持股（舊資料）");
 stOK=1;$("#sst").textContent="現股報價來源："+s.src+"，報價時間 "+new Date(s.t).toLocaleString()+ext}
 async function dash(){if(busy)return;busy=1;$("#rf").textContent="更新中…";const q="symbol="+SY,L="&period=5m&limit=48";
 const [S0,...rs]=await Promise.all([stk(),...[J("/fapi/v1/ticker/24hr?"+q),J("/fapi/v1/premiumIndex?"+q),J("/fapi/v1/openInterest?"+q),J("/futures/data/globalLongShortAccountRatio?"+q+L),J("/futures/data/topLongShortPositionRatio?"+q+L),J("/futures/data/takerlongshortRatio?"+q+L),J("/futures/data/topLongShortAccountRatio?"+q+L),J("/futures/data/openInterestHist?"+q+L)].map(p=>p.catch(()=>null))]);
@@ -138,7 +139,7 @@ const [A,B,O,G,TP,TK,TA,OH]=rs,la=x=>x&&x.length?x.at(-1):null,lv=(x,k)=>x&&x.ma
 const c=A&&+A.priceChangePercent,cc=c>=0?"up":"dn",g0=la(G),t0=la(TP),k0=la(TK);
 $("#dg").innerHTML=KK(F(A&&A.lastPrice),"最新價",cc)+KK(A?(c>=0?"+":"")+F(c)+"%":"—","24h 漲跌",cc)+KK(F(A&&A.quoteVolume,0),"24h 成交額 USDT")+KK(F(B&&B.markPrice),"標記價")+KK(B?F(B.lastFundingRate*100,4)+"%":"—","資金費率")+KK(F(O&&O.openInterest,1),"未平倉量 (MU)")+KK(F(g0&&g0.longShortRatio),"全市場多空帳戶比")+KK(F(t0&&t0.longShortRatio),"大戶多空持倉比")+KK(F(k0&&k0.buySellRatio),"主動買賣量比 (5m)");
 $("#sp").innerHTML=spark(lv(TP,"longShortRatio"),"大戶多空持倉比",x=>F(x))+spark(lv(TA,"longShortRatio"),"大戶多空帳戶比",x=>F(x))+spark(lv(G,"longShortRatio"),"全市場多空帳戶比",x=>F(x))+spark(lv(TK,"buySellRatio"),"主動買賣量比",x=>F(x))+spark(lv(OH,"sumOpenInterestValue"),"未平倉價值（USDT）",x=>F(x/1e6,2)+"M");
-lastU=Date.now();busy=0;$("#rf").textContent="⟳ 全部更新";$("#ts3").textContent="大戶／大單即時｜13F "+(instOK?"來自 Nasdaq.com":"為季報快照")+"｜"+new Date().toLocaleTimeString();tickU()}
+lastU=Date.now();busy=0;$("#rf").textContent="⟳ 全部更新";$("#ts3").textContent="大戶／大單即時｜13F "+(instOK?"來自 Nasdaq.com":"為季報快照"+(instErr?"（失敗："+instErr+"）":""))+"｜"+new Date().toLocaleTimeString();tickU()}
 function tickU(){$("#dst").textContent=(okU||stOK)?`更新於 ${new Date(lastU).toLocaleTimeString()} · ${Math.max(0,30-Math.floor((Date.now()-lastU)/1000))} 秒後自動更新`:"⚠ 無法連線 Binance，30 秒後重試"}
 document.querySelectorAll(".sec").forEach((s,i)=>s.insertAdjacentHTML("afterbegin",`<div class="rbar"><span class="sub" id="ts${i}">尚未更新</span><button data-r="${i}">⟳ 更新此頁</button></div>`));
 $("#an").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" id="rec" style="display:none"></div>');
@@ -147,29 +148,38 @@ const key=()=>{try{return localStorage.getItem("fhk")}catch(e){return null}},now
 async function hist(){const Y="https://query1.finance.yahoo.com/v8/finance/chart/MU?interval=1d&range=1y",
 yh=async u=>{const j=(await jf(u)).chart.result[0],c=j.indicators.quote[0].close,o=[];j.timestamp.forEach((t,i)=>{if(c[i]!=null)o.push([t*1000,c[i]])});if(o.length<5)throw new Error("無資料");return o},
 sq=async()=>{const t=await(await fetch(px("https://stooq.com/q/d/l/?s=mu.us&i=d&d1=20250901&d2=20261231"),{signal:AbortSignal.timeout(9000)})).text(),o=t.trim().split("\n").slice(1).map(l=>l.split(",")).filter(r=>+r[4]>0).map(r=>[Date.parse(r[0]),+r[4]]);if(o.length<5)throw new Error("無資料");return o};
-try{return await Promise.any([["Yahoo",()=>yh(Y)],["Yahoo2",()=>yh(Y.replace("query1","query2"))],["Yahoo(代理)",()=>yh(px(Y))],["Stooq(代理)",sq]].map(([n,f])=>f().then(r=>(r.src=n,r))))}catch(e){return null}}
+try{return await Promise.any([["Yahoo",()=>yh(Y)],["Yahoo2",()=>yh(Y.replace("query1","query2"))],...PX.map((f,i)=>["Yahoo(代理"+(i+1)+")",()=>yh(f(Y))]),["Stooq(代理)",sq]].map(([n,f])=>f().then(r=>(r.src=n,r))))}catch(e){return null}}
 let lastT=0;async function loadTrend(f){if(!f&&Date.now()-lastT<60000)return;lastT=Date.now();
 const [b,s]=await Promise.all([jf(FH+"/fapi/v1/klines?symbol=MUUSDT&interval=1d&limit=1000").then(r=>r.map(k=>[k[0],+k[4]])).catch(()=>null),hist()]);
 if(b&&b.length)BP=b;if(s&&s.length){SP=s;document.querySelector("#rng [data-a=snap]").textContent="現股日 K"}
 $("#ts1").textContent=(s&&s.length?"現股日 K 來源 "+s.src:"現股日 K 抓取失敗，顯示快照")+"｜"+(b?"MUUSDT 日 K 已更新 ":"MUUSDT 抓取失敗 ")+now();draw()}
 function wb(){$("#who").innerHTML=["全部",...new Set(I.map(r=>r[1]))].map((n,i)=>`<button class="${i?"":"on"}">${n}</button>`).join("")}
-let instOK=0;const pn=s=>parseFloat(String(s||"").replace(/[$,]/g,""));
-async function nq(p){const u="https://api.nasdaq.com/api"+p;return Promise.any([u,px(u),"https://corsproxy.io/?url="+encodeURIComponent(u)].map(async x=>{const j=await jf(x);if(!j.data)throw new Error("無資料");return j.data}))}
-let lastI=0;async function loadIns(f){if(!f&&Date.now()-lastI<60000)return;lastI=Date.now();let rows=[],src="";
-try{const d=await nq("/company/MU/insider-trades?limit=60&type=ALL&sortColumn=lastDate&sortOrder=DESC");rows=d.transactionTable.table.rows.map(r=>{const t=(r.transactionType||"").toLowerCase(),sd=t.includes("sell")?"S":t.includes("buy")?"B":null,[m,dd,y]=(r.lastDate||"").split("/");return sd&&[`${y}-${m}-${dd}`,r.insider,r.relation||"—",pn(r.sharesTraded),pn(r.lastPrice),0,"",sd]}).filter(x=>x&&x[3]>0&&x[4]>0);src="Nasdaq.com"}catch(e){}
+let instOK=0,instLive=0,instErr="",instPct="80.84%";const pn=s=>parseFloat(String(s||"").replace(/[$,]/g,"")),buy0=$("#buy").innerHTML;
+async function nq(p){const u="https://api.nasdaq.com/api"+p,er=[];try{return await Promise.any([["直連",u],...PX.map((g,i)=>["代理"+(i+1),g(u)])].map(async([n,x])=>{try{const j=await jf(x);if(!j.data)throw new Error("無資料");return j.data}catch(e){er.push(n+" "+(e.message||"失敗"));throw e}}))}catch(e){throw new Error(er.join("、"))}}
+let lastI=0;async function loadIns(f){if(!f&&Date.now()-lastI<60000)return;lastI=Date.now();let rows=[],src="",em="";
+try{const d=await nq("/company/MU/insider-trades?limit=60&type=ALL&sortColumn=lastDate&sortOrder=DESC");rows=d.transactionTable.table.rows.map(r=>{const t=(r.transactionType||"").toLowerCase(),sd=t.includes("sell")?"S":t.includes("buy")?"B":null,[m,dd,y]=(r.lastDate||"").split("/");return sd&&[`${y}-${m}-${dd}`,r.insider,r.relation||"—",pn(r.sharesTraded),pn(r.lastPrice),0,"",sd]}).filter(x=>x&&x[3]>0&&x[4]>0);src="Nasdaq.com"}catch(e){em=e.message}
 const k=key();if(!rows.length&&k)try{const j=await jf(`https://finnhub.io/api/v1/stock/insider-transactions?symbol=MU&from=2025-10-01&token=${k}`);rows=(j.data||[]).filter(x=>(x.transactionCode=="S"||x.transactionCode=="P")&&x.transactionPrice>0&&x.change).map(x=>[x.transactionDate,x.name,"—",Math.abs(x.change),x.transactionPrice,0,"",x.transactionCode=="P"?"B":"S"]);src="Finnhub"}catch(e){}
-if(!rows.length){$("#ts2").textContent="⚠ 公開來源皆無法連線（可能被瀏覽器或網路封鎖），顯示 11/13 整理的快照";return}
+if(!rows.length){$("#ts2").textContent="⚠ 抓取失敗（"+em+"），顯示 11/13 整理的快照";return}
 I=rows;who="全部";wb();tb();draw();$("#ts2").textContent=`${src} Form 4 即時｜${rows.length} 筆買賣｜${now()}`}
 let lastN=0;async function loadInst(f){if(!f&&Date.now()-lastN<60000)return;lastN=Date.now();
-try{const d=await nq("/company/MU/institutional-holdings?limit=15&type=TOTAL&sortColumn=marketValue&sortOrder=DESC"),r=d.holdingsTransactions.table.rows;if(!r.length)throw new Error("無資料");
+try{const d=await nq("/company/MU/institutional-holdings?limit=50&type=TOTAL&sortColumn=marketValue&sortOrder=DESC"),r=d.holdingsTransactions.table.rows;if(!r.length)throw new Error("無資料");
 if(!$("#f13s"))$("#f13").parentNode.insertAdjacentHTML("beforebegin",'<div class="sub" id="f13s" style="margin-bottom:6px"></div>');
 $("#f13s").textContent=((d.activePositions&&d.activePositions.table&&d.activePositions.table.rows)||[]).map(x=>`${x.positions}：${x.holders} 家`).join("｜");
-$("#f13").innerHTML='<tr><th>機構</th><th>持股數</th><th>增減</th><th>增減%</th><th>申報日</th></tr>'+r.map(x=>{const c=pn(x.sharesChange)>=0?"up":"dn";return `<tr><td>${x.ownerName}</td><td>${x.sharesHeld}</td><td class="${c}">${x.sharesChange}</td><td class="${c}">${x.sharesChangePCT}</td><td>${x.date}</td></tr>`}).join("");instOK=1}catch(e){instOK=0}}
+const mv=r.slice().sort((a,b)=>Math.abs(pn(b.sharesChange))-Math.abs(pn(a.sharesChange))).slice(0,15),cl=x=>pn(x.sharesChange)>=0?"up":"dn";
+$("#f13").innerHTML='<tr><th>機構</th><th>持股數</th><th>增減</th><th>增減%</th><th>申報日</th></tr>'+mv.map(x=>`<tr><td>${x.ownerName}</td><td>${x.sharesHeld}</td><td class="${cl(x)}">${x.sharesChange}</td><td class="${cl(x)}">${x.sharesChangePCT}</td><td>${x.date}</td></tr>`).join("");
+$("#inst").innerHTML='<tr><th>機構</th><th>持股數</th><th>市值</th><th>申報日</th></tr>'+r.slice(0,15).map(x=>`<tr><td>${x.ownerName}</td><td>${x.sharesHeld}</td><td>${x.marketValue}</td><td>${x.date}</td></tr>`).join("");
+const os=d.ownershipSummary||{},pk=Object.keys(os).find(k=>/PCT/i.test(k)&&os[k]&&os[k].value);if(pk){instPct=os[pk].value;instLive=1}
+const hc=[...document.querySelectorAll("h2")].find(e=>e.textContent=="近期大戶異動");if(hc)hc.parentNode.style.display="none";instOK=1;instErr=""}catch(e){instOK=0;instErr=e.message}}
+async function loadBuy(f){if(!f&&Date.now()-(window.lb||0)<3e5)return;window.lb=Date.now();
+try{const u="https://data.sec.gov/api/xbrl/companyconcept/CIK0000723125/us-gaap/PaymentsForRepurchaseOfCommonStock.json",j=await Promise.any([u,...PX.map(g=>g(u))].map(x=>jf(x))),m={};
+(j.units.USD||[]).filter(e=>e.start&&(Date.parse(e.end)-Date.parse(e.start))/864e5<100&&/^10-[QK]/.test(e.form)).forEach(e=>m[e.end]=e.val);
+const r=Object.entries(m).sort((a,b)=>b[0]<a[0]?-1:1).slice(0,6);if(!r.length)throw new Error("無資料");
+$("#buy").innerHTML="公司買回股票（SEC 申報，單季，第四財季不單列）："+r.map(([d,v])=>`${d} <b>$${F(v/1e6,0)}M</b>`).join("｜")+`<span class="sub"> 　更新 ${now()}</span>`}catch(e){$("#buy").innerHTML=buy0+'<span class="sub"> ⚠ SEC 即時抓取失敗，顯示快照</span>'}}
 let lastA=0;async function loadAn(f){if(!f&&Date.now()-lastA<60000)return;lastA=Date.now();const c=$("#rec");
 try{const o=(await nq("/analyst/MU/targetprice")).consensusOverview,D=v=>v==null||v===""?"—":String(v).startsWith("$")?v:"$"+v;if(!o)throw new Error("無資料");
-c.style.display="block";c.innerHTML=`<h2>分析師共識（Nasdaq.com）</h2><div class="grid">${KK(D(o.priceTarget),"共識目標價")+KK(D(o.highPriceTarget),"最高目標價")+KK(D(o.lowPriceTarget),"最低目標價")+KK(o.buy==null?"—":o.buy,"買進","up")+KK(o.hold==null?"—":o.hold,"持有")+KK(o.sell==null?"—":o.sell,"賣出","dn")}</div>`;$("#ts4").textContent="Nasdaq.com 共識即時｜"+now()+"｜下表目標價為快照"}
-catch(e){c.style.display="none";$("#ts4").textContent="⚠ 公開來源無法連線，顯示 11/13 整理的快照"}}
-const refreshAll=f=>Promise.all([dash(),loadTrend(f),loadIns(f),loadAn(f),loadInst(f)]);
+c.style.display="block";c.innerHTML=`<h2>分析師共識（Nasdaq.com）</h2><div class="grid">${KK(D(o.priceTarget),"共識目標價")+KK(D(o.highPriceTarget),"最高目標價")+KK(D(o.lowPriceTarget),"最低目標價")+KK(o.buy==null?"—":o.buy,"買進","up")+KK(o.hold==null?"—":o.hold,"持有")+KK(o.sell==null?"—":o.sell,"賣出","dn")}</div>`;$("#ts4").textContent="Nasdaq.com 共識即時｜"+now()+"｜下表目標價為歷史快照"}
+catch(e){c.style.display="none";$("#ts4").textContent="⚠ 抓取失敗（"+e.message+"），顯示 11/13 整理的快照"}}
+const refreshAll=f=>Promise.all([dash(),loadTrend(f),loadIns(f),loadAn(f),loadInst(f),loadBuy(f)]);
 $("#rf").onclick=()=>refreshAll(1);$("#fk").onclick=()=>{let o="";try{o=localStorage.getItem("fhk")||""}catch(e){}const k=prompt("貼上 Finnhub 免費 API Key（finnhub.io 註冊後在 Dashboard 取得；留空則清除）：",o);if(k===null)return;try{k.trim()?localStorage.setItem("fhk",k.trim()):localStorage.removeItem("fhk")}catch(e){}refreshAll(1)};setInterval(()=>{if(Date.now()-lastU>=30000)refreshAll();else tickU()},1000);refreshAll();
 $("#f13").innerHTML='<tr><th>機構</th><th>動作</th><th>幅度／規模</th><th>季度</th></tr>'+[["AQR Capital","增持","+411.9%","2025 Q3"],["Norges Bank","新建倉","約 $19.8 億","2025 Q2"],["Nuveen","新建倉","約 $3.69 億","2025 Q1"],["Slate Path Capital","新建倉","約 $3.18 億","2025 Q2"],["Keystone Investors","新建倉","約 $9,625 萬","2025 Q1"],["Connor Clark & Lunn","新建倉","約 $8,881 萬","2025 Q3"],["Orbis Allan Gray","增持","+50.2%（346 萬股）","2025 Q2"],["Dimensional","增持","+26.3%","2025 Q1"],["Goldman Sachs","增持","+23.8%","2025 Q1"],["BlackRock","增持","+7.3%（約 1.007 億股）","2025 Q4"],["Invesco","增持","+8.0%（962 萬股）","2026/3 報導"],["State Street","增持","+2.7%（5,137 萬股）","2025 Q2"],["Vanguard","增持","+1.9%（1.066 億股）","2025 Q4"],["Capital Research","減持","−13.1%（9,805 萬股）","來源未註明"],["Stableford Capital II","減持","−64.7%（小型）","2026 Q2"]].map(r=>`<tr><td>${r[0]}</td><td class="${/^[增新]/.test(r[1])?"up":"dn"}">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("");
 
